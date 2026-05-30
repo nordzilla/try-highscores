@@ -32,8 +32,6 @@ html.splash {
     margin-right: auto;
     width: 90%;
     font-size: 4vh;
-    height: 77vh;
-    overflow-y: hidden;
     display: grid;
     grid-template-columns: 5fr 1fr 1fr;
 }
