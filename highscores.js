@@ -65,9 +65,10 @@ async function getScores() {
 class UserRow extends React.Component {
     render() {
         return [
-            <span className="user"><a href={tryLink(this.props.author)} target="_new">{this.props.author}</a></span>,
-            <span className="hours">{numberWithCommas(this.props.hours)}</span>,
-            <span className="jobs">{numberWithCommas(this.props.jobs)}</span>,
+            <span key="rank" className="rank">{this.props.rank}</span>,
+            <span key="user" className="user"><a href={tryLink(this.props.author)} target="_new">{this.props.author}</a></span>,
+            <span key="hours" className="hours">{numberWithCommas(this.props.hours)}</span>,
+            <span key="jobs" className="jobs">{numberWithCommas(this.props.jobs)}</span>,
         ];
     }
 }
@@ -85,12 +86,14 @@ class HighscoresTable extends React.Component {
         return (
             <div>
                 <div id="scores">
+                    <span className="rank">Rank</span>
                     <span className="user">User</span>
                     <span className="hours">Hours</span>
                     <span className="jobs">Jobs</span>
-                    {this.state.rows.map(row =>
+                    {this.state.rows.map((row, index) =>
                         <UserRow
                             key={row.author}
+                            rank={index + 1}
                             author={row.author}
                             hours={row.elapsed / 3600}
                             jobs={row.jobs} />
