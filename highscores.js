@@ -2,6 +2,13 @@ function numberWithCommas(x) {
     return new Intl.NumberFormat().format(x.toFixed(0));
 }
 
+function numberWithDecimals(x) {
+    return new Intl.NumberFormat(undefined, {
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+    }).format(x);
+}
+
 function formatDate(d) {
     return new Date(d).toLocaleString();
 }
@@ -64,11 +71,13 @@ async function getScores() {
 
 class UserRow extends React.Component {
     render() {
+        const hoursPerJob = this.props.jobs ? this.props.hours / this.props.jobs : 0;
         return [
             <span key="rank" className="rank">{this.props.rank}</span>,
             <span key="user" className="user"><a href={tryLink(this.props.author)} target="_new">{this.props.author}</a></span>,
             <span key="hours" className="hours">{numberWithCommas(this.props.hours)}</span>,
             <span key="jobs" className="jobs">{numberWithCommas(this.props.jobs)}</span>,
+            <span key="hours-per-job" className="hours-per-job">{numberWithDecimals(hoursPerJob)}</span>,
         ];
     }
 }
@@ -97,7 +106,10 @@ class HighscoresTable extends React.Component {
         if (this.state.sortColumn === "hours") {
             return row.elapsed / 3600;
         }
-        return row.jobs;
+        if (this.state.sortColumn === "jobs") {
+            return row.jobs;
+        }
+        return row.jobs ? (row.elapsed / 3600) / row.jobs : 0;
     }
 
     sortedRows() {
@@ -140,6 +152,7 @@ class HighscoresTable extends React.Component {
                     <span className="user">User</span>
                     {this.sortableHeader("hours", "hours", "Hours")}
                     {this.sortableHeader("jobs", "jobs", "Jobs")}
+                    {this.sortableHeader("hours-per-job", "hoursPerJob", "Hr/Job")}
                     {sortedRows.map((row, index) =>
                         <UserRow
                             key={row.author}

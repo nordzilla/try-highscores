@@ -35,10 +35,10 @@ html.splash {
     overflow-y: auto;
     font-size: 1.5rem;
     display: grid;
-    grid-template-columns: max-content minmax(0, 1fr) max-content max-content;
+    grid-template-columns: max-content minmax(0, 1fr) max-content max-content max-content;
 }
 
-#scores span:nth-child(-n+4) {
+#scores span:nth-child(-n+5) {
     position: sticky;
     top: 0;
     background-color: black;
@@ -80,6 +80,13 @@ html.splash {
 
 .jobs {
     grid-column: 4;
+    text-align: right;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+}
+
+.hours-per-job {
+    grid-column: 5;
     text-align: right;
     padding-left: 1em;
     padding-bottom: 0.5em;
