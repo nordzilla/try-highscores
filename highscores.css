@@ -20,31 +20,42 @@ html.splash {
 #title {
     text-align: center;
     color: green;
-    font-size: 5vh;
+    font-size: 3rem;
     text-decoration: blink;
-    margin: 3vh auto;
+    margin: 1.5rem auto;
 }
 
 #scores {
     border: solid 1px red;
-    padding: 10px;
+    padding: 0 10px 10px;
     margin-left: auto;
     margin-right: auto;
     width: 90%;
-    font-size: 3.2vh;
+    max-height: calc(100vh - 12rem);
+    overflow-y: auto;
+    font-size: 1.5rem;
     display: grid;
     grid-template-columns: max-content minmax(0, 1fr) max-content max-content;
 }
 
 #scores span:nth-child(-n+4) {
+    position: sticky;
+    top: 0;
+    background-color: black;
     border-bottom: solid 1px green;
+    padding-top: 10px;
+    z-index: 1;
+}
+
+#scores span:nth-child(n+7):nth-child(-n+12) {
+    padding-top: 0.4em;
 }
 
 .rank {
     grid-column: 1;
     text-align: right;
-    padding-right: 2vw;
-    padding-bottom: 1.6vh;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
 }
 
 .user {
@@ -52,7 +63,7 @@ html.splash {
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
-    padding-bottom: 1.6vh;
+    padding-bottom: 0.5em;
 }
 
 .user a {
@@ -63,15 +74,15 @@ html.splash {
 .hours {
     grid-column: 3;
     text-align: right;
-    padding-left: 2vw;
-    padding-bottom: 1.6vh;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
 }
 
 .jobs {
     grid-column: 4;
     text-align: right;
-    padding-left: 2vw;
-    padding-bottom: 1.6vh;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
 }
 
 .sortable {
@@ -99,8 +110,8 @@ html.splash {
 #footer {
     vertical-align: bottom;
     text-align: center;
-    padding-top: 2.2vh;
-    font-size: 2.2vh;
+    padding-top: 1.5rem;
+    font-size: 1rem;
 }
 
 #footer a {
