@@ -31,9 +31,9 @@ html.splash {
     margin-left: auto;
     margin-right: auto;
     width: 90%;
-    font-size: 4vh;
+    font-size: 3.2vh;
     display: grid;
-    grid-template-columns: 1fr 5fr 1fr 1fr;
+    grid-template-columns: max-content minmax(0, 1fr) max-content max-content;
 }
 
 #scores span:nth-child(-n+4) {
@@ -72,6 +72,28 @@ html.splash {
     text-align: right;
     padding-left: 2vw;
     padding-bottom: 1.6vh;
+}
+
+.sortable {
+    cursor: pointer;
+    color: green;
+    white-space: nowrap;
+}
+
+.sort-marker {
+    display: inline-block;
+    margin-left: 0.45em;
+    width: 1em;
+    font-style: normal;
+    text-align: left;
+}
+
+.sortable:focus {
+    outline: none;
+}
+
+.sortable:focus-visible {
+    outline: solid 1px green;
 }
 
 #footer {

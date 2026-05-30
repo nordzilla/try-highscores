@@ -79,21 +79,71 @@ class HighscoresTable extends React.Component {
         this.state = {
             rows: [],
             queryTime: new Date(),
+            sortColumn: "hours",
+            sortDirection: "desc",
         };
+        this.setSort = this.setSort.bind(this);
+    }
+
+    setSort(sortColumn) {
+        const sortDirection = this.state.sortColumn === sortColumn && this.state.sortDirection === "desc" ? "asc" : "desc";
+        this.setState({
+            sortColumn: sortColumn,
+            sortDirection: sortDirection,
+        });
+    }
+
+    sortValue(row) {
+        if (this.state.sortColumn === "hours") {
+            return row.elapsed / 3600;
+        }
+        return row.jobs;
+    }
+
+    sortedRows() {
+        const direction = this.state.sortDirection === "asc" ? 1 : -1;
+        return this.state.rows.slice().sort((a, b) => {
+            const difference = this.sortValue(a) - this.sortValue(b);
+            if (difference !== 0) {
+                return difference * direction;
+            }
+            return b.elapsed - a.elapsed;
+        });
+    }
+
+    sortableHeader(className, sortColumn, label) {
+        const sortMarker = this.state.sortColumn === sortColumn ? (this.state.sortDirection === "asc" ? "↑" : "↓") : "";
+        return (
+            <span
+                className={`${className} sortable`}
+                onClick={() => this.setSort(sortColumn)}
+                onKeyDown={event => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        this.setSort(sortColumn);
+                    }
+                }}
+                role="button"
+                tabIndex="0">
+                {label}
+                <i className="sort-marker">{sortMarker}</i>
+            </span>
+        );
     }
 
     render() {
+        const sortedRows = this.sortedRows();
         return (
             <div>
                 <div id="scores">
                     <span className="rank">Rank</span>
                     <span className="user">User</span>
-                    <span className="hours">Hours</span>
-                    <span className="jobs">Jobs</span>
-                    {this.state.rows.map((row, index) =>
+                    {this.sortableHeader("hours", "hours", "Hours")}
+                    {this.sortableHeader("jobs", "jobs", "Jobs")}
+                    {sortedRows.map((row, index) =>
                         <UserRow
                             key={row.author}
-                            rank={index + 1}
+                            rank={this.state.sortDirection === "asc" ? sortedRows.length - index : index + 1}
                             author={row.author}
                             hours={row.elapsed / 3600}
                             jobs={row.jobs} />
