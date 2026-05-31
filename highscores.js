@@ -74,6 +74,7 @@ class UserRow extends React.Component {
         const hoursPerJob = this.props.jobs ? this.props.hours / this.props.jobs : 0;
         return [
             <span key="rank" className="rank">{this.props.rank}</span>,
+            <span key="percentile" className="percentile">{Math.round(this.props.percentile)}</span>,
             <span key="user" className="user"><a href={tryLink(this.props.author)} target="_new">{this.props.author}</a></span>,
             <span key="hours" className="hours">{numberWithCommas(this.props.hours)}</span>,
             <span key="jobs" className="jobs">{numberWithCommas(this.props.jobs)}</span>,
@@ -145,22 +146,31 @@ class HighscoresTable extends React.Component {
 
     render() {
         const sortedRows = this.sortedRows();
+        const total = sortedRows.length;
+        const sortValues = sortedRows.map(row => this.sortValue(row));
         return (
             <div>
                 <div id="scores">
                     <span className="rank">Rank</span>
+                    <span className="percentile">%</span>
                     <span className="user">User</span>
                     {this.sortableHeader("hours", "hours", "Hours")}
                     {this.sortableHeader("jobs", "jobs", "Jobs")}
                     {this.sortableHeader("hours-per-job", "hoursPerJob", "Hr/Job")}
-                    {sortedRows.map((row, index) =>
-                        <UserRow
-                            key={row.author}
-                            rank={this.state.sortDirection === "asc" ? sortedRows.length - index : index + 1}
-                            author={row.author}
-                            hours={row.elapsed / 3600}
-                            jobs={row.jobs} />
-                    )}
+                    {sortedRows.map((row, index) => {
+                        const valuesBelow = sortValues.filter(value => value < sortValues[index]).length;
+                        const percentile = total > 1 ? (valuesBelow / (total - 1)) * 100 : 100;
+                        return (
+                            <UserRow
+                                key={row.author}
+                                rank={this.state.sortDirection === "asc" ? total - index : index + 1}
+                                total={total}
+                                percentile={percentile}
+                                author={row.author}
+                                hours={row.elapsed / 3600}
+                                jobs={row.jobs} />
+                        );
+                    })}
                 </div>
                 <div id="footer">
                     <a href="https://sql.telemetry.mozilla.org/queries/47423">Report</a> generated at {formatDate(this.state.queryTime)} for try pushes in the previous 7 days.

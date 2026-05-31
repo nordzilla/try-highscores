@@ -35,10 +35,10 @@ html.splash {
     overflow-y: auto;
     font-size: 1.5rem;
     display: grid;
-    grid-template-columns: max-content minmax(0, 1fr) max-content max-content max-content;
+    grid-template-columns: max-content max-content minmax(0, 1fr) max-content max-content max-content;
 }
 
-#scores span:nth-child(-n+5) {
+#scores span:nth-child(-n+6) {
     position: sticky;
     top: 0;
     background-color: black;
@@ -58,8 +58,15 @@ html.splash {
     padding-bottom: 0.5em;
 }
 
-.user {
+.percentile {
     grid-column: 2;
+    text-align: right;
+    padding-right: 1em;
+    padding-bottom: 0.5em;
+}
+
+.user {
+    grid-column: 3;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
@@ -72,21 +79,21 @@ html.splash {
 }
 
 .hours {
-    grid-column: 3;
-    text-align: right;
-    padding-left: 1em;
-    padding-bottom: 0.5em;
-}
-
-.jobs {
     grid-column: 4;
     text-align: right;
     padding-left: 1em;
     padding-bottom: 0.5em;
 }
 
-.hours-per-job {
+.jobs {
     grid-column: 5;
+    text-align: right;
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+}
+
+.hours-per-job {
+    grid-column: 6;
     text-align: right;
     padding-left: 1em;
     padding-bottom: 0.5em;
